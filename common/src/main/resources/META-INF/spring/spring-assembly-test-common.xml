@@ -21,7 +21,7 @@
        default-autowire="byName">
 
 
-    <bean class="com.cassius.spring.assembly.test.spring.SpringMockitoSpiedBeanReplaceProcessor"
+    <bean class="com.cassius.spring.assembly.test.common.spring.SpringMockitoSpiedBeanReplaceProcessor"
           id="springMockitoSpiedBeanReplaceProcessor">
     </bean>
 </beans>
