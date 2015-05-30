@@ -8,10 +8,44 @@
     <artifactId>spring-assembly-test-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
+
+    <licenses>
+        <license>
+            <name>Apache License version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>github.com</system>
+        <url>https://github.com/cassiuscai/spring-assembly-test/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:cassiuscai/spring-assembly-test.git</connection>
+        <developerConnection>scm:git:git@github.com:cassiuscai/spring-assembly-test.git</developerConnection>
+        <url>git@github.com:cassiuscai/spring-assembly-test.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>cassiuscai</id>
+            <name>Cassius Cai</name>
+            <email>cassiuscai@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+
     <modules>
         <module>common</module>
         <module>testng</module>
         <module>junits</module>
+        <module>usages</module>
     </modules>
 
     <build>
