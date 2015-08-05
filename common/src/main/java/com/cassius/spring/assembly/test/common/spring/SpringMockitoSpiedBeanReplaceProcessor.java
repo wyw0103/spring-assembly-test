@@ -15,10 +15,10 @@
  **********************************************************************************************************************/
 package com.cassius.spring.assembly.test.common.spring;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mockito.Mockito;
 import org.mockito.internal.util.MockUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
@@ -28,10 +28,9 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 public class SpringMockitoSpiedBeanReplaceProcessor implements BeanPostProcessor {
 
     /**
-     * The constant logger.
+     * Logger available to subclasses.
      */
-    private final static Logger logger = LoggerFactory
-        .getLogger(SpringMockitoSpiedBeanReplaceProcessor.class);
+    protected final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Post process before initialization.

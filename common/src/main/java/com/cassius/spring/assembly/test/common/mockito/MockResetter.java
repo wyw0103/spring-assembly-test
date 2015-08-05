@@ -17,9 +17,9 @@ package com.cassius.spring.assembly.test.common.mockito;
 
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 
@@ -28,17 +28,17 @@ import java.lang.reflect.Field;
  */
 public class MockResetter {
     /**
-     * The Logger.
+     * Logger available to subclasses.
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Log logger = LogFactory.getLog(getClass());
     /**
      * The Test instance.
      */
-    private Object       testInstance;
+    private Object      testInstance;
     /**
      * The Inject field.
      */
-    private Field        injectField;
+    private Field       injectField;
 
     /**
      * Instantiates a new Mock resetter.

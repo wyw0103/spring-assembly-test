@@ -17,12 +17,18 @@ import org.testng.annotations.Test;
 @SpringContextConfigure({ "META-INF/spring/spring.xml" })
 public class OldTestNGTest extends TestNGSpringAssemblyTest {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();
-		Assertions.assertThat(new MockUtil().isMock(service)).isFalse();
+        Assertions.assertThat(new MockUtil().isMock(service)).isFalse();
     }
 }

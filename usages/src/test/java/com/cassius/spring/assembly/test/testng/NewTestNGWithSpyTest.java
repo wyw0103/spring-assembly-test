@@ -18,9 +18,15 @@ import org.testng.annotations.Test;
                           "classpath:META-INF/spring/spring-assembly-test-common.xml" })
 public class NewTestNGWithSpyTest extends TestNGSpringAssemblyTest {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

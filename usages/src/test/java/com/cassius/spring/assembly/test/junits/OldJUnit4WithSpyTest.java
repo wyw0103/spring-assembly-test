@@ -19,9 +19,15 @@ import org.mockito.internal.util.MockUtil;
 @SpringAssemblyConfigure(createSpy = true)
 public class OldJUnit4WithSpyTest extends JUnit4SpringAssemblyTest {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

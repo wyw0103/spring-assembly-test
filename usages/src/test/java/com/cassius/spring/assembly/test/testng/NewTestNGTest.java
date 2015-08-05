@@ -17,9 +17,15 @@ import org.testng.annotations.Test;
 @ContextConfiguration(locations = { "classpath:META-INF/spring/spring.xml" })
 public class NewTestNGTest extends AbstractTestNGSpringAssemblyTests {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

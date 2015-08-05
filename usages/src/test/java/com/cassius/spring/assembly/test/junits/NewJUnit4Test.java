@@ -17,9 +17,15 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(locations = { "classpath:META-INF/spring/spring.xml", })
 public class NewJUnit4Test extends AbstractJUnit4SpringAssemblyTests {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

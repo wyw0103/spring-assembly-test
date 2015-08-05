@@ -17,8 +17,8 @@ package com.cassius.spring.assembly.test.common.reflect;
 
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.reflect.Field;
 
@@ -27,21 +27,21 @@ import java.lang.reflect.Field;
  */
 public class FieldWriter {
     /**
-     * The Logger.
+     * Logger available to subclasses.
      */
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Log logger = LogFactory.getLog(getClass());
     /**
      * The Object.
      */
-    private Object object;
+    private Object      object;
     /**
      * The Field.
      */
-    private Field  field;
+    private Field       field;
     /**
      * The Value.
      */
-    private Object value;
+    private Object      value;
 
     /**
      * Instantiates a new Field writer.

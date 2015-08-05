@@ -22,6 +22,7 @@ import com.cassius.spring.assembly.test.common.setting.processor.InjectInto;
 import com.cassius.spring.assembly.test.common.toolbox.ContextUtil;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.lang.reflect.Field;
 
@@ -85,6 +86,8 @@ public class InjectIntoProcessor extends AbstractPstProcessor {
     protected void doProcessAfter(ApplicationContext context, Object instance,
                                   Field field) throws Exception {
         String contextName = ContextUtil.getSpringContextName(instance.getClass());
-        SpringAssemblyTest.contextMap.remove(contextName);
+        SpringAssemblyTest.getContextCache().remove(
+            ContextUtil.getMergedContextConfiguration(instance),
+            DirtiesContext.HierarchyMode.EXHAUSTIVE);
     }
 }

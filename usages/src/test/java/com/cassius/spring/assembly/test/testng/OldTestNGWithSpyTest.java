@@ -19,9 +19,15 @@ import org.testng.annotations.Test;
 @SpringAssemblyConfigure(createSpy = true)
 public class OldTestNGWithSpyTest extends TestNGSpringAssemblyTest {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

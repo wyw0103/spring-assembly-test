@@ -19,6 +19,7 @@ import com.cassius.spring.assembly.test.common.setting.configure.SpringAssemblyC
 import com.cassius.spring.assembly.test.common.setting.configure.SpringContextConfigure;
 
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.test.context.MergedContextConfiguration;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -32,6 +33,58 @@ public class ContextUtil {
      * The constant DEFAULT_CONTEXT_NAME.
      */
     private final static String DEFAULT_CONTEXT_NAME = "_default";
+    /**
+     * The constant SPY_PROCESSOR_CONFIG.
+     */
+    private static final String SPY_PROCESSOR_CONFIG = "META-INF/spring/spring-assembly-test-common.xml";
+
+    /**
+     * Gets spring context name.
+     *
+     * @param testClass the test class
+     * @return the spring context name
+     */
+    public static String getSpringContextName(Class<?> testClass) {
+        String contextName = DEFAULT_CONTEXT_NAME;
+        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(testClass,
+            SpringAssemblyConfigure.class);
+        if (springAssemblyConfigure.reuseSpringContext()) {
+            return testClass.getName();
+        }
+        return contextName;
+    }
+
+    /**
+     * Gets merged context configuration.
+     *
+     * @param testInstance the test instance
+     * @return the merged context configuration
+     */
+    public static MergedContextConfiguration getMergedContextConfiguration(Object testInstance) {
+        MergedContextConfiguration contextConfiguration = new MergedContextConfiguration(
+            testInstance.getClass(), getContextConfiguration(testInstance), null, null, null);
+        return contextConfiguration;
+    }
+
+    /**
+     * Get context configuration.
+     *
+     * @param testInstance the test instance
+     * @return the string [ ]
+     */
+    public static String[] getContextConfiguration(Object testInstance) {
+        Class<?> testClass = testInstance.getClass();
+        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(testClass,
+            SpringAssemblyConfigure.class);
+        Set<String> files = com.cassius.spring.assembly.test.common.toolbox.ContextUtil
+            .getSpringContextLocations(testClass);
+        if (springAssemblyConfigure.createSpy()) {
+            files.add(SPY_PROCESSOR_CONFIG);
+        }
+        String[] configurationLocations = new String[files.size()];
+        configurationLocations = files.toArray(configurationLocations);
+        return configurationLocations;
+    }
 
     /**
      * Get spring context locations.
@@ -50,21 +103,5 @@ public class ContextUtil {
             testClass = testClass.getSuperclass();
         }
         return files;
-    }
-
-    /**
-     * Gets spring context name.
-     *
-     * @param testClass the test class
-     * @return the spring context name
-     */
-    public static String getSpringContextName(Class<?> testClass) {
-        String contextName = DEFAULT_CONTEXT_NAME;
-        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(testClass,
-            SpringAssemblyConfigure.class);
-        if (springAssemblyConfigure.reuseSpringContext()) {
-            return testClass.getName();
-        }
-        return contextName;
     }
 }

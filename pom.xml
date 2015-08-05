@@ -48,7 +48,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<powermock.version>1.6.1</powermock.version>
 		<assertj-core.version>1.7.1</assertj-core.version>
-		<assertj-guava.version>1.3.1</assertj-guava.version>
+		<guava.version>18.0</guava.version>
 
 		<testng.version>6.8.17</testng.version>
 
@@ -123,10 +123,11 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.assertj</groupId>
-				<artifactId>assertj-guava</artifactId>
-				<version>${assertj-guava.version}</version>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
 			</dependency>
+
 
 			<!-- logging -->
 			<dependency>

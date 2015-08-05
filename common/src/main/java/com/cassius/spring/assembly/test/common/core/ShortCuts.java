@@ -19,9 +19,9 @@ import com.cassius.spring.assembly.test.common.toolbox.CollectionUtil;
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 import com.google.common.collect.Lists;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.assertj.core.api.Assertions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,9 @@ import java.util.List;
 public class ShortCuts extends Assertions {
 
     /**
-     * The Logger.
+     * Logger available to subclasses.
      */
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Shortcut to get an array Object

@@ -23,16 +23,13 @@ import com.cassius.spring.assembly.test.common.process.SpringBeanProcessor;
 import com.cassius.spring.assembly.test.common.process.SpringMockProcessor;
 import com.cassius.spring.assembly.test.common.setting.configure.ProcessorConfigure;
 import com.cassius.spring.assembly.test.common.setting.configure.SpringAssemblyConfigure;
+import com.cassius.spring.assembly.test.common.spring.ContextCache;
 import com.cassius.spring.assembly.test.common.toolbox.ContextUtil;
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.annotation.AnnotationUtils;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.test.context.MergedContextConfiguration;
 
 /**
  * TestNG Unit Test Engine
@@ -48,7 +45,16 @@ public class SpringAssemblyTest extends ShortCuts {
     /**
      * The constant contextMap.
      */
-    public static Map<String, ApplicationContext> contextMap = new ConcurrentHashMap<String, ApplicationContext>();
+    private static final ContextCache contextCache = new ContextCache();
+
+    /**
+     * Gets context cache.
+     *
+     * @return the context cache
+     */
+    public static ContextCache getContextCache() {
+        return contextCache;
+    }
 
     /**
      * Before test execution
@@ -57,10 +63,7 @@ public class SpringAssemblyTest extends ShortCuts {
      */
     public void before() {
         try {
-            String contextName = ContextUtil.getSpringContextName(getClass());
-            initSpringContext(contextName);
-            ApplicationContext context = contextMap.get(contextName);
-            SpringAssemblyTestUtil.before(this, context);
+            SpringAssemblyTestUtil.before(this, getSpringContext());
         } catch (Exception e) {
             fail(e.getMessage(), e);
         }
@@ -68,35 +71,26 @@ public class SpringAssemblyTest extends ShortCuts {
 
     /**
      * Init Spring Context
-     * @param contextName the context name
+     * @return the spring context
      */
-    private void initSpringContext(String contextName) {
-        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(getClass(),
-            SpringAssemblyConfigure.class);
+    private ApplicationContext getSpringContext() {
 
-        if (springAssemblyConfigure.reuseSpringContext()) {
-            if (contextMap.containsKey(contextName)) {
-                return;
+        String[] configurationLocations = ContextUtil.getContextConfiguration(this);
+        MergedContextConfiguration contextConfiguration = new MergedContextConfiguration(getClass(),
+            configurationLocations, null, null, null);
+        if (!contextCache.contains(contextConfiguration)) {
+            ApplicationContext context = new ClassPathXmlApplicationContext(configurationLocations);
+            if (logger.isInfoEnabled()) {
+                logger
+                    .info(LogFormatUtil.format("@@ Init Spring Context: " + getClass().getName()));
+                logger.info(LogFormatUtil.format("@@ Loaded Spring Files: ",
+                    configurationLocations.toString()));
+                logger.info(LogFormatUtil.format("@@ Loaded Spring Beans: ",
+                    context.getBeanDefinitionNames()));
             }
+            contextCache.put(contextConfiguration, context);
         }
-
-        Set<String> files = ContextUtil.getSpringContextLocations(getClass());
-        if (springAssemblyConfigure.createSpy()) {
-            files.add("META-INF/spring/spring-assembly-test-common.xml");
-        }
-
-        String[] configurationLocations = new String[files.size()];
-        configurationLocations = files.toArray(configurationLocations);
-        ApplicationContext context = new ClassPathXmlApplicationContext(configurationLocations);
-
-        if (logger.isInfoEnabled()) {
-            logger.info(LogFormatUtil.format("@@ Init Spring Context: " + contextName));
-            logger.info(LogFormatUtil.format("@@ Loaded Spring Files: ",
-                configurationLocations.toString()));
-            logger.info(
-                LogFormatUtil.format("@@ Loaded Spring Beans: ", context.getBeanDefinitionNames()));
-        }
-        contextMap.put(contextName, context);
+        return contextCache.get(contextConfiguration);
     }
 
     /**
@@ -105,8 +99,7 @@ public class SpringAssemblyTest extends ShortCuts {
      * @throws Exception
      */
     public void after() {
-        String contextName = ContextUtil.getSpringContextName(getClass());
-        ApplicationContext applicationContext = contextMap.get(contextName);
-        SpringAssemblyTestUtil.after(this, applicationContext);
+        SpringAssemblyTestUtil.after(this, getSpringContext());
     }
+
 }

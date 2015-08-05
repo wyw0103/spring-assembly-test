@@ -19,9 +19,15 @@ import org.mockito.internal.util.MockUtil;
                           "classpath:META-INF/spring/spring-assembly-test-common.xml" })
 public class NewJUnit4WithSpyTest extends TestNGSpringAssemblyTest {
 
+    /**
+     * The Service.
+     */
     @SpringBean
     private Service service;
 
+    /**
+     * Test void.
+     */
     @Test
     public void test() {
         Assertions.assertThat(service).isNotNull();

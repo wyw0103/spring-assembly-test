@@ -22,11 +22,11 @@ import com.cassius.spring.assembly.test.common.process.AnnotationProcessor;
 import com.cassius.spring.assembly.test.common.setting.configure.ProcessorConfigure;
 import com.cassius.spring.assembly.test.common.toolbox.ReflectionUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.assertj.core.api.Assertions;
 import org.mockito.Mockito;
 import org.mockito.internal.util.MockUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
@@ -41,9 +41,9 @@ import java.util.Set;
  */
 public class SpringAssemblyTestUtil {
     /**
-     * The constant logger.
+     * Logger available to subclasses.
      */
-    private final static Logger logger = LoggerFactory.getLogger(SpringAssemblyTestUtil.class);
+    protected final static Log logger = LogFactory.getLog(SpringAssemblyTestUtil.class);
 
     /**
      * Before void.
