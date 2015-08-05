@@ -54,23 +54,12 @@ public class FieldReader {
      * New instance.
      *
      * @param object the object
-     * @param field the field
-     * @return the field reader
-     */
-    public static FieldReader newInstance(Object object, Field field) {
-        return new FieldReader(object, field);
-    }
-
-    /**
-     * New instance.
-     *
-     * @param object the object
      * @param fieldName the field name
      * @return the field reader
      * @throws NoSuchFieldException the no such field exception
      */
-    public static FieldReader newInstance(Object object, String fieldName)
-                                                                          throws NoSuchFieldException {
+    public static FieldReader newInstance(Object object,
+                                          String fieldName) throws NoSuchFieldException {
         Class<?> clazz = object.getClass();
         while (clazz != Object.class) {
             try {
@@ -86,6 +75,17 @@ public class FieldReader {
     }
 
     /**
+     * New instance.
+     *
+     * @param object the object
+     * @param field the field
+     * @return the field reader
+     */
+    public static FieldReader newInstance(Object object, Field field) {
+        return new FieldReader(object, field);
+    }
+
+    /**
      * Read object.
      *
      * @return the object
@@ -95,9 +95,9 @@ public class FieldReader {
         field.setAccessible(true);
         Object value = field.get(object);
         if (logger.isDebugEnabled()) {
-            logger.debug(LogFormatUtil.format("@ Read Field:", "In Class @ "
-                                                               + object.getClass().getName(),
-                "On Field @ " + field.getName(), "Of Value @ " + value));
+            logger.debug(
+                LogFormatUtil.format("@ Read Field:", "In Class @ " + object.getClass().getName(),
+                    "On Field @ " + field.getName(), "Of Value @ " + value));
         }
         return value;
     }

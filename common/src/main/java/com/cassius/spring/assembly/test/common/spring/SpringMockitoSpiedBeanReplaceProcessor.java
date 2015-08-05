@@ -31,7 +31,7 @@ public class SpringMockitoSpiedBeanReplaceProcessor implements BeanPostProcessor
      * The constant logger.
      */
     private final static Logger logger = LoggerFactory
-                                           .getLogger(SpringMockitoSpiedBeanReplaceProcessor.class);
+        .getLogger(SpringMockitoSpiedBeanReplaceProcessor.class);
 
     /**
      * Post process before initialization.
@@ -41,8 +41,8 @@ public class SpringMockitoSpiedBeanReplaceProcessor implements BeanPostProcessor
      * @return the object
      * @throws BeansException the beans exception
      */
-    public Object postProcessBeforeInitialization(Object bean, String beanName)
-                                                                               throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean,
+                                                  String beanName) throws BeansException {
         return bean;
     }
 
@@ -54,8 +54,8 @@ public class SpringMockitoSpiedBeanReplaceProcessor implements BeanPostProcessor
      * @return the object
      * @throws BeansException the beans exception
      */
-    public Object postProcessAfterInitialization(Object bean, String beanName)
-                                                                              throws BeansException {
+    public Object postProcessAfterInitialization(Object bean,
+                                                 String beanName) throws BeansException {
         return createMockitoSpyBean(bean, beanName);
     }
 

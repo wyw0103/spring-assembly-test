@@ -41,17 +41,6 @@ public class MockResetter {
     private Field        injectField;
 
     /**
-     * New instance.
-     *
-     * @param testInstance the test instance
-     * @param injectField the inject field
-     * @return the mock resetter
-     */
-    public static MockResetter newInstance(Object testInstance, Field injectField) {
-        return new MockResetter(testInstance, injectField);
-    }
-
-    /**
      * Instantiates a new Mock resetter.
      *
      * @param testInstance the test instance
@@ -60,6 +49,17 @@ public class MockResetter {
     public MockResetter(Object testInstance, Field injectField) {
         this.testInstance = testInstance;
         this.injectField = injectField;
+    }
+
+    /**
+     * New instance.
+     *
+     * @param testInstance the test instance
+     * @param injectField the inject field
+     * @return the mock resetter
+     */
+    public static MockResetter newInstance(Object testInstance, Field injectField) {
+        return new MockResetter(testInstance, injectField);
     }
 
     /**
@@ -72,9 +72,8 @@ public class MockResetter {
         Mockito.reset(injectField.get(testInstance));
 
         if (logger.isDebugEnabled()) {
-            logger.debug(LogFormatUtil.format("@ Reset Mock Field:", "In Class @ "
-                                                                     + testInstance.getClass()
-                                                                         .getName(),
+            logger.debug(LogFormatUtil.format("@ Reset Mock Field:",
+                "In Class @ " + testInstance.getClass().getName(),
                 "On Field @ " + injectField.getName()));
         }
     }

@@ -48,8 +48,8 @@ public class MakeObjectProcessor extends AbstractExeProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                            throws Exception {
+    protected void doProcessBefore(ApplicationContext context, Object instance,
+                                   Field field) throws Exception {
         Object fieldValue = field.getType().newInstance();
         FieldWriter.newInstance(instance, field, fieldValue).write();
     }

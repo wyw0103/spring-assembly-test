@@ -44,6 +44,19 @@ public class FieldWriter {
     private Object value;
 
     /**
+     * Instantiates a new Field writer.
+     *
+     * @param object the object
+     * @param field the field
+     * @param value the value
+     */
+    private FieldWriter(Object object, Field field, Object value) {
+        this.object = object;
+        this.field = field;
+        this.value = value;
+    }
+
+    /**
      * New instance.
      *
      * @param object the object
@@ -64,8 +77,8 @@ public class FieldWriter {
      * @return the field writer
      * @throws NoSuchFieldException the no such field exception
      */
-    public static FieldWriter newInstance(Object object, String fieldName, Object value)
-                                                                                        throws NoSuchFieldException {
+    public static FieldWriter newInstance(Object object, String fieldName,
+                                          Object value) throws NoSuchFieldException {
         Class<?> clazz = object.getClass();
         while (clazz != Object.class) {
             try {
@@ -81,19 +94,6 @@ public class FieldWriter {
     }
 
     /**
-     * Instantiates a new Field writer.
-     *
-     * @param object the object
-     * @param field the field
-     * @param value the value
-     */
-    private FieldWriter(Object object, Field field, Object value) {
-        this.object = object;
-        this.field = field;
-        this.value = value;
-    }
-
-    /**
      * Write void.
      *
      * @throws Exception the exception
@@ -102,9 +102,9 @@ public class FieldWriter {
         field.setAccessible(true);
         field.set(object, value);
         if (logger.isDebugEnabled()) {
-            logger.debug(LogFormatUtil.format("@ Write Field:", "In Class @ "
-                                                                + object.getClass().getName(),
-                "On Field @ " + field.getName(), "Of Value @ " + value));
+            logger.debug(
+                LogFormatUtil.format("@ Write Field:", "In Class @ " + object.getClass().getName(),
+                    "On Field @ " + field.getName(), "Of Value @ " + value));
         }
     }
 }

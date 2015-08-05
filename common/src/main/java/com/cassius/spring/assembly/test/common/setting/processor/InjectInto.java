@@ -34,5 +34,5 @@ public @interface InjectInto {
      *
      * @return string [ ]
      */
-    public String[] value();
+    public String[]value();
 }

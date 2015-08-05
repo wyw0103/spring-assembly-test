@@ -34,5 +34,5 @@ public @interface ProcessorConfigure {
      *
      * @return class [ ]
      */
-    Class<? extends AnnotationProcessor>[] value();
+    Class<? extends AnnotationProcessor>[]value();
 }

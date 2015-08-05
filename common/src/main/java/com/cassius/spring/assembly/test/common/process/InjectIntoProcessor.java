@@ -50,8 +50,8 @@ public class InjectIntoProcessor extends AbstractPstProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                            throws Exception {
+    protected void doProcessBefore(ApplicationContext context, Object instance,
+                                   Field field) throws Exception {
         Object fieldValue = FieldReader.newInstance(instance, field).read();
         InjectInto injectInto = field.getAnnotation(InjectInto.class);
         String[] targets = injectInto.value();
@@ -82,8 +82,8 @@ public class InjectIntoProcessor extends AbstractPstProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessAfter(ApplicationContext context, Object instance, Field field)
-                                                                                           throws Exception {
+    protected void doProcessAfter(ApplicationContext context, Object instance,
+                                  Field field) throws Exception {
         String contextName = ContextUtil.getSpringContextName(instance.getClass());
         SpringAssemblyTest.contextMap.remove(contextName);
     }

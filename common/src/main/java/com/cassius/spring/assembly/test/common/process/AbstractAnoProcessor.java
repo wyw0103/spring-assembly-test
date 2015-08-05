@@ -61,8 +61,8 @@ public abstract class AbstractAnoProcessor implements AnnotationProcessor {
      * @param field the field
      * @throws Exception the exception
      */
-    protected abstract void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                                     throws Exception;
+    protected abstract void doProcessBefore(ApplicationContext context, Object instance,
+                                            Field field) throws Exception;
 
     /**
      * Process after test execution
@@ -102,6 +102,6 @@ public abstract class AbstractAnoProcessor implements AnnotationProcessor {
      * @param field the field
      * @throws Exception the exception
      */
-    protected abstract void doProcessAfter(ApplicationContext context, Object instance, Field field)
-                                                                                                    throws Exception;
+    protected abstract void doProcessAfter(ApplicationContext context, Object instance,
+                                           Field field) throws Exception;
 }

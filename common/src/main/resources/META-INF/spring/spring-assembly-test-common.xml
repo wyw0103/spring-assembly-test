@@ -15,13 +15,13 @@
   * See the License for the specific language governing permissions and                                               *
   * limitations under the License.                                                                                    *
   *******************************************************************************************************************-->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-       default-autowire="byName">
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	   default-autowire="byName">
 
 
-    <bean class="com.cassius.spring.assembly.test.common.spring.SpringMockitoSpiedBeanReplaceProcessor"
-          id="springMockitoSpiedBeanReplaceProcessor">
-    </bean>
+	<bean class="com.cassius.spring.assembly.test.common.spring.SpringMockitoSpiedBeanReplaceProcessor"
+		  id="springMockitoSpiedBeanReplaceProcessor">
+	</bean>
 </beans>

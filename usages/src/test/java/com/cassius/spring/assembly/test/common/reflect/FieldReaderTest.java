@@ -1,9 +1,9 @@
 package com.cassius.spring.assembly.test.common.reflect;
 
+import com.cassius.spring.assembly.test.usages.domain.Address;
+
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
-
-import com.cassius.spring.assembly.test.usages.domain.Address;
 
 /**
  * FieldReaderTest

@@ -50,10 +50,11 @@ public class MockOnBeanProcessor extends AbstractPstProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                            throws Exception {
-        FieldWriter.newInstance(instance, field,
-            Mockito.spy(context.getBean(field.getAnnotation(MockOnBean.class).value())))
+    protected void doProcessBefore(ApplicationContext context, Object instance,
+                                   Field field) throws Exception {
+        FieldWriter
+            .newInstance(instance, field,
+                Mockito.spy(context.getBean(field.getAnnotation(MockOnBean.class).value())))
             .write();
     }
 
@@ -78,8 +79,8 @@ public class MockOnBeanProcessor extends AbstractPstProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessAfter(ApplicationContext context, Object instance, Field field)
-                                                                                           throws Exception {
+    protected void doProcessAfter(ApplicationContext context, Object instance,
+                                  Field field) throws Exception {
         MockResetter.newInstance(instance, field).reset();
     }
 }

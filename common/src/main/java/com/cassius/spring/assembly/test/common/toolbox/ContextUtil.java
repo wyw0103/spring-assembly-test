@@ -17,6 +17,7 @@ package com.cassius.spring.assembly.test.common.toolbox;
 
 import com.cassius.spring.assembly.test.common.setting.configure.SpringAssemblyConfigure;
 import com.cassius.spring.assembly.test.common.setting.configure.SpringContextConfigure;
+
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.util.Arrays;

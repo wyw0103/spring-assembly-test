@@ -18,6 +18,7 @@ package com.cassius.spring.assembly.test.common.core;
 import com.cassius.spring.assembly.test.common.toolbox.CollectionUtil;
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 import com.google.common.collect.Lists;
+
 import org.assertj.core.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

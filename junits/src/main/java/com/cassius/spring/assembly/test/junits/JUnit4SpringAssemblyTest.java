@@ -15,13 +15,13 @@
  **********************************************************************************************************************/
 package com.cassius.spring.assembly.test.junits;
 
-import junitparams.JUnitParamsRunner;
+import com.cassius.spring.assembly.test.common.core.SpringAssemblyTest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
-import com.cassius.spring.assembly.test.common.core.SpringAssemblyTest;
+import junitparams.JUnitParamsRunner;
 
 /**
  * Created by Cassius Cai on 2/2/15 21:22.

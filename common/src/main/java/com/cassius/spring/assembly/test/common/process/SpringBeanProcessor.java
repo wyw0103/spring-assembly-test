@@ -48,8 +48,8 @@ public class SpringBeanProcessor extends AbstractExeProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                            throws Exception {
+    protected void doProcessBefore(ApplicationContext context, Object instance,
+                                   Field field) throws Exception {
         FieldWriter.newInstance(instance, field, context.getBean(field.getName())).write();
     }
 
@@ -74,7 +74,7 @@ public class SpringBeanProcessor extends AbstractExeProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessAfter(ApplicationContext context, Object instance, Field field)
-                                                                                           throws Exception {
+    protected void doProcessAfter(ApplicationContext context, Object instance,
+                                  Field field) throws Exception {
     }
 }

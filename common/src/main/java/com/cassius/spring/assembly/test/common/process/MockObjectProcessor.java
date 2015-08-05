@@ -50,8 +50,8 @@ public class MockObjectProcessor extends AbstractExeProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessBefore(ApplicationContext context, Object instance, Field field)
-                                                                                            throws Exception {
+    protected void doProcessBefore(ApplicationContext context, Object instance,
+                                   Field field) throws Exception {
         Object fieldValue = Mockito.mock(field.getType());
         FieldWriter.newInstance(instance, field, fieldValue).write();
     }
@@ -77,8 +77,8 @@ public class MockObjectProcessor extends AbstractExeProcessor {
      * @throws Exception the exception
      */
     @Override
-    protected void doProcessAfter(ApplicationContext context, Object instance, Field field)
-                                                                                           throws Exception {
+    protected void doProcessAfter(ApplicationContext context, Object instance,
+                                  Field field) throws Exception {
         MockResetter.newInstance(instance, field).reset();
     }
 }

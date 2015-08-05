@@ -15,10 +15,6 @@
  **********************************************************************************************************************/
 package com.cassius.spring.assembly.test.common.core;
 
-import com.cassius.spring.assembly.test.common.process.AbstractExeProcessor;
-import com.cassius.spring.assembly.test.common.process.AbstractPreProcessor;
-import com.cassius.spring.assembly.test.common.process.AbstractPstProcessor;
-import com.cassius.spring.assembly.test.common.process.AnnotationProcessor;
 import com.cassius.spring.assembly.test.common.process.InjectIntoProcessor;
 import com.cassius.spring.assembly.test.common.process.MakeObjectProcessor;
 import com.cassius.spring.assembly.test.common.process.MockObjectProcessor;
@@ -29,15 +25,11 @@ import com.cassius.spring.assembly.test.common.setting.configure.ProcessorConfig
 import com.cassius.spring.assembly.test.common.setting.configure.SpringAssemblyConfigure;
 import com.cassius.spring.assembly.test.common.toolbox.ContextUtil;
 import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
-import com.cassius.spring.assembly.test.common.toolbox.ReflectionUtil;
-import org.mockito.Mockito;
-import org.mockito.internal.util.MockUtil;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,8 +40,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Cassius Cai on 1/24/15 19:03.
  */
 @ProcessorConfigure({ MakeObjectProcessor.class, MockObjectProcessor.class,
-                     MockOnBeanProcessor.class, InjectIntoProcessor.class,
-                     SpringBeanProcessor.class, SpringMockProcessor.class })
+                      MockOnBeanProcessor.class, InjectIntoProcessor.class,
+                      SpringBeanProcessor.class, SpringMockProcessor.class })
 @SpringAssemblyConfigure
 public class SpringAssemblyTest extends ShortCuts {
 
@@ -57,19 +49,6 @@ public class SpringAssemblyTest extends ShortCuts {
      * The constant contextMap.
      */
     public static Map<String, ApplicationContext> contextMap = new ConcurrentHashMap<String, ApplicationContext>();
-
-    /**
-     * Annotation Processor
-     */
-    private Set<AnnotationProcessor>              preProcessors;
-    /**
-     * Annotation Processor
-     */
-    private Set<AnnotationProcessor>              exeProcessors;
-    /**
-     * Annotation Processor
-     */
-    private Set<AnnotationProcessor>              pstProcessors;
 
     /**
      * Before test execution
@@ -80,65 +59,10 @@ public class SpringAssemblyTest extends ShortCuts {
         try {
             String contextName = ContextUtil.getSpringContextName(getClass());
             initSpringContext(contextName);
-            initAnnotationProcessors();
             ApplicationContext context = contextMap.get(contextName);
-            for (AnnotationProcessor processor : preProcessors) {
-                processor.before(contextMap.get(contextName), this);
-            }
-            for (AnnotationProcessor processor : exeProcessors) {
-                processor.before(contextMap.get(contextName), this);
-            }
-            for (AnnotationProcessor processor : pstProcessors) {
-                processor.before(contextMap.get(contextName), this);
-            }
-
-            // reset mockito behavior
-            for (String beanName : context.getBeanDefinitionNames()) {
-                Object bean = null;
-                try {
-                    bean = context.getBean(beanName);
-                } catch (Exception e) {
-                    continue;
-                }
-
-                if (new MockUtil().isMock(bean)) {
-                    Mockito.reset(bean);
-                    logger.info("Reset mockito object: " + beanName);
-                }
-            }
+            SpringAssemblyTestUtil.before(this, context);
         } catch (Exception e) {
             fail(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * After test method execution
-     *
-     * @throws Exception
-     */
-    public void after() {
-        try {
-            afterProcess();
-        } catch (Exception e) {
-            fail(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * After process.
-     *
-     * @throws Exception the exception
-     */
-    private void afterProcess() throws Exception {
-        String contextName = ContextUtil.getSpringContextName(getClass());
-        for (AnnotationProcessor processor : preProcessors) {
-            processor.after(contextMap.get(contextName), this);
-        }
-        for (AnnotationProcessor processor : exeProcessors) {
-            processor.after(contextMap.get(contextName), this);
-        }
-        for (AnnotationProcessor processor : pstProcessors) {
-            processor.after(contextMap.get(contextName), this);
         }
     }
 
@@ -147,8 +71,8 @@ public class SpringAssemblyTest extends ShortCuts {
      * @param contextName the context name
      */
     private void initSpringContext(String contextName) {
-        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(
-            getClass(), SpringAssemblyConfigure.class);
+        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils.findAnnotation(getClass(),
+            SpringAssemblyConfigure.class);
 
         if (springAssemblyConfigure.reuseSpringContext()) {
             if (contextMap.containsKey(contextName)) {
@@ -169,44 +93,20 @@ public class SpringAssemblyTest extends ShortCuts {
             logger.info(LogFormatUtil.format("@@ Init Spring Context: " + contextName));
             logger.info(LogFormatUtil.format("@@ Loaded Spring Files: ",
                 configurationLocations.toString()));
-            logger.info(LogFormatUtil.format("@@ Loaded Spring Beans: ",
-                context.getBeanDefinitionNames()));
+            logger.info(
+                LogFormatUtil.format("@@ Loaded Spring Beans: ", context.getBeanDefinitionNames()));
         }
         contextMap.put(contextName, context);
     }
 
     /**
-     * Init Annotation Processor
+     * After test method execution
      *
-     * @throws Exception the exception
+     * @throws Exception
      */
-    private void initAnnotationProcessors() throws Exception {
-        Set<Class<? extends AnnotationProcessor>> configuredProcessors = new HashSet<Class<? extends AnnotationProcessor>>();
-        Class<?> clazz = getClass();
-        while (clazz != null) {
-            ProcessorConfigure processorConfigure = clazz.getAnnotation(ProcessorConfigure.class);
-            if (processorConfigure != null) {
-                configuredProcessors.addAll(Arrays.asList(processorConfigure.value()));
-            }
-            clazz = clazz.getSuperclass();
-        }
-        Set<AnnotationProcessor> preProcessors = new HashSet<AnnotationProcessor>();
-        Set<AnnotationProcessor> exeProcessors = new HashSet<AnnotationProcessor>();
-        Set<AnnotationProcessor> pstProcessors = new HashSet<AnnotationProcessor>();
-        for (Class<? extends AnnotationProcessor> processor : configuredProcessors) {
-            if (ReflectionUtil.instanceOrSubclassOf(processor, AbstractPreProcessor.class)) {
-                preProcessors.add(processor.newInstance());
-            }
-            if (ReflectionUtil.instanceOrSubclassOf(processor, AbstractExeProcessor.class)) {
-                exeProcessors.add(processor.newInstance());
-            }
-            if (ReflectionUtil.instanceOrSubclassOf(processor, AbstractPstProcessor.class)) {
-                pstProcessors.add(processor.newInstance());
-            }
-
-        }
-        this.preProcessors = preProcessors;
-        this.exeProcessors = exeProcessors;
-        this.pstProcessors = pstProcessors;
+    public void after() {
+        String contextName = ContextUtil.getSpringContextName(getClass());
+        ApplicationContext applicationContext = contextMap.get(contextName);
+        SpringAssemblyTestUtil.after(this, applicationContext);
     }
 }

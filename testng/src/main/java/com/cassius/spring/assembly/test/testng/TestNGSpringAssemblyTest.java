@@ -16,6 +16,7 @@
 package com.cassius.spring.assembly.test.testng;
 
 import com.cassius.spring.assembly.test.common.core.SpringAssemblyTest;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 

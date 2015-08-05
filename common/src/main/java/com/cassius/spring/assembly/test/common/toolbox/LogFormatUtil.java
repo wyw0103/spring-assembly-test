@@ -30,15 +30,15 @@ public class LogFormatUtil {
     /**
      * The constant SYMBOL_0.
      */
-    private final static String SYMBOL_0    = "=";
+    private final static String SYMBOL_0 = "=";
     /**
      * The constant SYMBOL_2.
      */
-    private final static String SYMBOL_2    = ">";
+    private final static String SYMBOL_2 = ">";
     /**
      * The constant SYMBOL_3.
      */
-    private final static String SYMBOL_3    = "<";
+    private final static String SYMBOL_3 = "<";
 
     /**
      * The LINE _ lENGTH.
@@ -52,7 +52,7 @@ public class LogFormatUtil {
     /**
      * The constant BLANK.
      */
-    private final static String BLANK       = " ";
+    private final static String BLANK = " ";
 
     /**
      * Format string.
@@ -77,6 +77,16 @@ public class LogFormatUtil {
      * @param logs the logs
      * @return the string
      */
+    public static String format(String... logs) {
+        return format(Arrays.asList(logs));
+    }
+
+    /**
+     * Format string.
+     *
+     * @param logs the logs
+     * @return the string
+     */
     public static String format(List<String> logs) {
         String logSep = formatBegLine();
 
@@ -88,24 +98,13 @@ public class LogFormatUtil {
             } else {
 
                 String LOG_LINE_BREAK = "\n" + SYMBOL_3 + BLANK;
-                log = LOG_LINE_BEG
-                      + StringUtils.replace(insertBreakLineSymbol(log, LINE_LENGTH - 2), "\n",
-                          LOG_LINE_BREAK);
+                log = LOG_LINE_BEG + StringUtils
+                    .replace(insertBreakLineSymbol(log, LINE_LENGTH - 2), "\n", LOG_LINE_BREAK);
             }
             sb.append(log);
         }
         sb.append(RETURN);
         return sb.toString();
-    }
-
-    /**
-     * Format string.
-     *
-     * @param logs the logs
-     * @return the string
-     */
-    public static String format(String... logs) {
-        return format(Arrays.asList(logs));
     }
 
     /**

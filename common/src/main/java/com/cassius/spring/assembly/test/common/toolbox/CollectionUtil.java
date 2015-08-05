@@ -24,16 +24,6 @@ import java.util.Map;
 public class CollectionUtil {
 
     /**
-     * Is empty.
-     *
-     * @param map the map
-     * @return boolean boolean
-     */
-    public static boolean isEmpty(Map<?, ?> map) {
-        return (map == null || map.isEmpty());
-    }
-
-    /**
      * Is not empty.
      *
      * @param map the map
@@ -46,12 +36,11 @@ public class CollectionUtil {
     /**
      * Is empty.
      *
-     * @param collection the collection
+     * @param map the map
      * @return boolean boolean
      */
-    @SuppressWarnings("rawtypes")
-    public static boolean isEmpty(Collection collection) {
-        return (collection == null || collection.isEmpty());
+    public static boolean isEmpty(Map<?, ?> map) {
+        return (map == null || map.isEmpty());
     }
 
     /**
@@ -63,5 +52,16 @@ public class CollectionUtil {
     @SuppressWarnings("rawtypes")
     public static boolean isNotEmpty(Collection collection) {
         return !isEmpty(collection);
+    }
+
+    /**
+     * Is empty.
+     *
+     * @param collection the collection
+     * @return boolean boolean
+     */
+    @SuppressWarnings("rawtypes")
+    public static boolean isEmpty(Collection collection) {
+        return (collection == null || collection.isEmpty());
     }
 }

@@ -32,5 +32,5 @@ public @interface SpringContextConfigure {
      *
      * @return Spring annotation file locations in  class path
      */
-    public String[] value();
+    public String[]value();
 }
