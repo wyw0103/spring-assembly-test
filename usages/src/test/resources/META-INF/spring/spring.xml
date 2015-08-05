@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cassius="http://www.cassius.org/spring/cassius"
+	   xsi:schemaLocation="
 
+	   http://www.cassius.org/spring/cassius  http://www.cassius.org/spring/cassius.xsd
+	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	   default-autowire="byName">
 	<bean id="service"
 		  class="com.cassius.spring.assembly.test.usages.domain.ServiceImpl"/>
+
+	<cassius:mock class="com.cassius.spring.assembly.test.usages.domain.Service" id="mockService" useStaticMap="false"/>
+	<cassius:spy beanName="service"/>
+
 </beans>

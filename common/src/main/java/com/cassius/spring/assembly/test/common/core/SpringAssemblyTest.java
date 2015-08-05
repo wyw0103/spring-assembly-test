@@ -31,6 +31,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.MergedContextConfiguration;
 
+import java.util.Arrays;
+
 /**
  * TestNG Unit Test Engine
  * <p/>
@@ -84,9 +86,9 @@ public class SpringAssemblyTest extends ShortCuts {
                 logger
                     .info(LogFormatUtil.format("@@ Init Spring Context: " + getClass().getName()));
                 logger.info(LogFormatUtil.format("@@ Loaded Spring Files: ",
-                    configurationLocations.toString()));
+                    Arrays.asList(configurationLocations).toString()));
                 logger.info(LogFormatUtil.format("@@ Loaded Spring Beans: ",
-                    context.getBeanDefinitionNames()));
+                    Arrays.asList(context.getBeanDefinitionNames()).toString()));
             }
             contextCache.put(contextConfiguration, context);
         }
