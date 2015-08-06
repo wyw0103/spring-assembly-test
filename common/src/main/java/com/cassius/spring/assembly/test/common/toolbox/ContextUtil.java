@@ -55,6 +55,24 @@ public class ContextUtil {
     }
 
     /**
+     * Gets reuse spring context configure class.
+     *
+     * @param targetClass the target class
+     * @return the reuse spring context configure class
+     */
+    public static Class<?> getSpringContextCacheConfigureClass(Class<?> targetClass) {
+        Class<?> declaringClass = AnnotationUtils
+            .findAnnotationDeclaringClass(SpringAssemblyConfigure.class, targetClass);
+        SpringAssemblyConfigure springAssemblyConfigure = AnnotationUtils
+            .findAnnotation(targetClass, SpringAssemblyConfigure.class);
+        if (declaringClass != null && springAssemblyConfigure != null
+            && springAssemblyConfigure.reuseSpringContext()) {
+            return declaringClass;
+        }
+        return targetClass;
+    }
+
+    /**
      * Gets merged context configuration.
      *
      * @param testInstance the test instance
@@ -62,7 +80,8 @@ public class ContextUtil {
      */
     public static MergedContextConfiguration getMergedContextConfiguration(Object testInstance) {
         MergedContextConfiguration contextConfiguration = new MergedContextConfiguration(
-            testInstance.getClass(), getContextConfiguration(testInstance), null, null, null);
+            getSpringContextCacheConfigureClass(testInstance.getClass()),
+            getContextConfiguration(testInstance), null, null, null);
         return contextConfiguration;
     }
 

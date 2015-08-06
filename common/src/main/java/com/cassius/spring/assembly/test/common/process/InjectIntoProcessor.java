@@ -86,8 +86,7 @@ public class InjectIntoProcessor extends AbstractPstProcessor {
     protected void doProcessAfter(ApplicationContext context, Object instance,
                                   Field field) throws Exception {
         String contextName = ContextUtil.getSpringContextName(instance.getClass());
-        SpringAssemblyTest.getContextCache().remove(
-            ContextUtil.getMergedContextConfiguration(instance),
+        SpringAssemblyTest.removeContext(ContextUtil.getMergedContextConfiguration(instance),
             DirtiesContext.HierarchyMode.EXHAUSTIVE);
     }
 }

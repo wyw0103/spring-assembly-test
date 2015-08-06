@@ -29,9 +29,8 @@ import com.cassius.spring.assembly.test.common.toolbox.LogFormatUtil;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.MergedContextConfiguration;
-
-import java.util.Arrays;
 
 /**
  * TestNG Unit Test Engine
@@ -44,26 +43,48 @@ import java.util.Arrays;
 @SpringAssemblyConfigure
 public class SpringAssemblyTest extends ShortCuts {
 
-    /**
-     * The constant contextMap.
-     */
-    private static final ContextCache contextCache = new ContextCache();
+	/**
+	 * The constant contextMap.
+	 */
+	private static final ContextCache contextCache = new ContextCache();
 
-    /**
-     * Gets context cache.
-     *
-     * @return the context cache
-     */
-    public static ContextCache getContextCache() {
-        return contextCache;
+	/**
+	 * Remove context.
+	 *
+	 * @param mergedContextConfiguration the merged context configuration
+	 * @param hierarchyMode the hierarchy mode
+	 */
+	public static void removeContext(MergedContextConfiguration mergedContextConfiguration,
+                                     DirtiesContext.HierarchyMode hierarchyMode) {
+        synchronized (contextCache) {
+            contextCache.remove(mergedContextConfiguration, hierarchyMode);
+        }
     }
 
-    /**
-     * Before test execution
-     *
-     * @throws Exception
-     */
-    public void before() {
+	/**
+	 * Gets context hit count.
+	 *
+	 * @return the context hit count
+	 */
+	public static int getContextHitCount() {
+        return contextCache.getHitCount();
+    }
+
+	/**
+	 * Gets context miss count.
+	 *
+	 * @return the context miss count
+	 */
+	public static int getContextMissCount() {
+        return contextCache.getMissCount();
+    }
+
+	/**
+	 * Before test execution
+	 *
+	 * @throws Exception
+	 */
+	public void before() {
         try {
             SpringAssemblyTestUtil.before(this, getSpringContext());
         } catch (Exception e) {
@@ -71,37 +92,35 @@ public class SpringAssemblyTest extends ShortCuts {
         }
     }
 
-    /**
-     * Init Spring Context
-     * @return the spring context
-     */
-    private ApplicationContext getSpringContext() {
-
+	/**
+	 * Init Spring Context
+	 * @return the spring context
+	 */
+	private ApplicationContext getSpringContext() {
         String[] configurationLocations = ContextUtil.getContextConfiguration(this);
-        MergedContextConfiguration contextConfiguration = new MergedContextConfiguration(getClass(),
-            configurationLocations, null, null, null);
+        MergedContextConfiguration contextConfiguration = ContextUtil
+            .getMergedContextConfiguration(this);
         if (!contextCache.contains(contextConfiguration)) {
             ApplicationContext context = new ClassPathXmlApplicationContext(configurationLocations);
             if (logger.isInfoEnabled()) {
                 logger
                     .info(LogFormatUtil.format("@@ Init Spring Context: " + getClass().getName()));
-                logger.info(LogFormatUtil.format("@@ Loaded Spring Files: ",
-                    Arrays.asList(configurationLocations).toString()));
+                logger
+                    .info(LogFormatUtil.format("@@ Loaded Spring Files: ", configurationLocations));
                 logger.info(LogFormatUtil.format("@@ Loaded Spring Beans: ",
-                    Arrays.asList(context.getBeanDefinitionNames()).toString()));
+                    context.getBeanDefinitionNames()));
             }
             contextCache.put(contextConfiguration, context);
         }
         return contextCache.get(contextConfiguration);
     }
 
-    /**
-     * After test method execution
-     *
-     * @throws Exception
-     */
-    public void after() {
+	/**
+	 * After test method execution
+	 *
+	 * @throws Exception
+	 */
+	public void after() {
         SpringAssemblyTestUtil.after(this, getSpringContext());
     }
-
 }
